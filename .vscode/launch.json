@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open web.html",
-            "file": "c:\\Users\\Seojin Park\\Desktop\\JS project\\Project\\web.html"
+            "file": "C:\\Users\\comos\\OneDrive\\바탕 화면\\JS-project\\Project\\web.html"
         }
     ]
 }
