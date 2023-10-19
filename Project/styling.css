@@ -29,6 +29,7 @@ h1{
     align-items: center;
     justify-content: space-between;
     background-color: antiquewhite;
+    /* make thing round */
     border-radius: 30px;
     padding-left: 20px;
     
@@ -54,7 +55,10 @@ button{
     color: white;
     outline: none;
     border:none;
+    /* padding: first value is height and second value is width */
     padding: 12px 30px;
+    /* tells the user that they can click it by turning the mouse into the clicking thing when
+    hovered over it */
     cursor:pointer;
     border-radius: 20px;
 }
