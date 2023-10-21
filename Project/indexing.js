@@ -15,17 +15,18 @@
         else{
             //create new element for list
             let li = document.createElement("li");
+
+            
+            li.setAttribute('style', 'white-space: pre;');
             //assign the value of the input into the li value
-            // li.innerHTML = input.value + ",  " + description.value;
-            li.innerHTML = input.value;
-            // li.innerHTML = description.value;
+            li.textContent = input.value + "\r\n" + description.value;
             //add the text node to the newly created element
             list.appendChild(li);
             // list.appendChild(de);
             //span is a given/set value in the code(I didnt do anything with span)
             let span = document.createElement("span");
             //also a given thing, set span as x icon(the weird code is for the x icon, it is built in)
-            span.innerHTML = "\u00d7";
+            span.textContent = "\u00d7";
             li.appendChild(span);
             // de.appendChild(span);
             

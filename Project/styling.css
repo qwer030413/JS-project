@@ -57,6 +57,7 @@ input{
     padding-bottom: 10px;
     outline:none;
     font-weight: 20px;
+    font-size: 18px;
     
 
 
@@ -70,6 +71,7 @@ input{
     padding-bottom: 100px;
     outline:none;
     font-weight: 20px;
+    font-size: 15px;
 }
 button{
     background: rgb(59, 155, 59);
@@ -128,7 +130,8 @@ ul li span{
     text-align: center;
     align-items: center;
     line-height: 50px;
-    top: 0px;
+    /* making the x centered */
+    align-self: center;
     background-color: red;
 
 
