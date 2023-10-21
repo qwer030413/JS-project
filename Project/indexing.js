@@ -1,5 +1,16 @@
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
+    import {getDatabase, ref, push} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
     
+    const appSettings={
+        dabaseURL: "https://to-do-list-f337b-default-rtdb.firebaseio.com/"
+    }   
     
+    const app = initializeApp(appSettings)
+    const database = getDatabase(app);
+    const tasks = ref(database, "todo")
+
+
+
     // assign value of what we typed in into  input
     let input = document.getElementById("input");
     let description = document.getElementById("description");
@@ -7,7 +18,7 @@
     let list = document.getElementById("list");
 
     // function runs when button clicked
-    function add(){
+    window.add = function add(){
         if(input.value == '' || description.value =='')
         {
             alert("Nuh uh");
@@ -15,6 +26,7 @@
         else{
             //create new element for list
             let li = document.createElement("li");
+            
 
             
             li.setAttribute('style', 'white-space: pre;');
@@ -29,6 +41,11 @@
             span.textContent = "\u00d7";
             li.appendChild(span);
             // de.appendChild(span);
+
+
+            // push(tasks, li.textContent)
+            // console.log(`${inputValue} added to database`)
+            
             
         }
 
