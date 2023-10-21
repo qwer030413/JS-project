@@ -1,15 +1,19 @@
-    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-    import {getDatabase, ref, push} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
-    
-    const appSettings={
-        dabaseURL: "https://to-do-list-f337b-default-rtdb.firebaseio.com/"
-    }   
-    
-    const app = initializeApp(appSettings)
-    const database = getDatabase(app);
-    const tasks = ref(database, "todo")
+import {initializeApp} from "firebase/app";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCTL3eKUTdKo2l-eh9ERXKOmZZytZqdGrQ",
+    authDomain: "to-do-list-f337b.firebaseapp.com",
+    databaseURL: "https://to-do-list-f337b-default-rtdb.firebaseio.com",
+    projectId: "to-do-list-f337b",
+    storageBucket: "to-do-list-f337b.appspot.com",
+    messagingSenderId: "720665752666",
+    appId: "1:720665752666:web:90a4111473172961571463",
+    measurementId: "G-011YVD0ZC1"
+  };
 
 
+
+  const app = initializeApp(firebaseConfig);
 
     // assign value of what we typed in into  input
     let input = document.getElementById("input");
@@ -43,8 +47,7 @@
             // de.appendChild(span);
 
 
-            // push(tasks, li.textContent)
-            // console.log(`${inputValue} added to database`)
+            
             
             
         }
