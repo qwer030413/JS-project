@@ -2,17 +2,29 @@
 <head>
     <!-- title -->
     <title>to do list website</title>
-    <link rel="stylesheet" href="styling.css">
+    <link rel="stylesheet" href="login.css">
     </head>
 
     <body style="background-color: rgb(41, 34, 34);">
         
-        <h1 style="text-align: center;">Login</h1>
+        <div class = "back">
+            <button id = "goBack" onclick = "window.location.href = '../index.html';">go back</button>
+        </div>
         <div class = "login">
+            <h1 style="text-align: center;">Login</h1>
+            
             
             <div class = "loginBox">
+                <form id = "form">
+                    <label for="email">Email:</label><br>
+                    <input type = "text" id = "email" placeholder = "Email"><br>
+                    <label for="password">Password:</label><br>
+                    <input type = "text" id = "password" placeholder = "Password"><br>
+                    <button id = "loginButton">Login</button><br>
+                    <button id = "signUp">Sign up</button>
 
-                <input type = "text" id = "email" placeholder = "Email">
+                </form>
+                
 
 
             </div>
@@ -22,4 +34,7 @@
 
 
     </body>
+
+    
+    <script src = "login.js"></script>
     </html>

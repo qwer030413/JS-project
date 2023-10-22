@@ -1,14 +1,59 @@
+
+.login{
+    background-color: rgb(31, 115, 148);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 30px 100px;
+    margin: 100px auto 50px;
+    border-radius: 20px;
+    height: 40%;
+}
 h1{
     color : beige;
     margin: 10px auto 10px;
 
     
 }
-.login{
-    background-color: rgb(31, 115, 148);
-    width: 100%;
-    max-width: 500px;
-    padding: 30px 30px 180px;
-    margin: 100px auto 50px;
+
+
+
+#form{
+    margin: auto;
+    /* relative position is relative to other things, absolute means you can position it wher
+    ever you want with cords */
+    position:relative;
+    align-self: center;
+    background-color: wheat;
     border-radius: 20px;
+    /* centers the thing */
+    width: 60%;
+    padding:100px
 }
+label{
+    font-size: 23px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+input{
+    font-size: 22px;
+    border: none;
+    background-color:aqua;
+    border-radius: 10px;
+}
+
+#loginButton{
+    margin-top: 10px;
+    border : none;
+    background-color: goldenrod;
+    border-radius: 5px;
+    font-size: 25;
+}
+#signUp{
+    margin-top: 10px;
+    border : none;
+    background-color: goldenrod;
+    border-radius: 5px;
+    font-size: 25;
+}
+
+

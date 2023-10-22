@@ -18,7 +18,6 @@ h1{
 .button{
     background-color: beige;
     position:absolute;
-    left:800;
     padding: 20px 30px 20px;
     margin: 30px auto 50px;
     border-radius: 20px;
@@ -155,11 +154,15 @@ ul li.checked::before{
 }
 .login{
     position: relative;
-    left: 90%;
+    line-height: 100px;
+    text-align: center;
+    /* puts button on right */
+    
+    width: 100%;
 
 }
 #log{
-    
+    position: relative;
     background: rgb(59, 155, 59);
     border:none;
     /* padding: first value is height and second value is width */
@@ -170,8 +173,8 @@ ul li.checked::before{
     border-radius: 15px;
     text-align: center;
     align-items: center;
-    top: 50%;
-    left: 50%;
+    margin-right: 0;
+    
     
     
 
