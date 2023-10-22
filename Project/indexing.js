@@ -1,5 +1,5 @@
-import {initializeApp} from "firebase/app";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getDatabase, ref, set, onValue} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCTL3eKUTdKo2l-eh9ERXKOmZZytZqdGrQ",
     authDomain: "to-do-list-f337b.firebaseapp.com",
@@ -13,13 +13,25 @@ const firebaseConfig = {
 
 
 
-  const app = initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+    
 
     // assign value of what we typed in into  input
     let input = document.getElementById("input");
     let description = document.getElementById("description");
     //asign the list to the list 
     let list = document.getElementById("list");
+    //saving data?
+    // const saveRef = ref(db, "myData/" + input.value);
+    // onValue(saveRef, (snapshot) => {
+    //     snapshot.forEach((childSnapshot) => {
+    //         const inp = childSnapshot.val();
+    //         const des = childSnapshot.val();
+    //         list.appendChild(inp.value + "\r\n" + des.value)
+    //     });
+        
+    // })
 
     // function runs when button clicked
     window.add = function add(){
@@ -36,6 +48,19 @@ const firebaseConfig = {
             li.setAttribute('style', 'white-space: pre;');
             //assign the value of the input into the li value
             li.textContent = input.value + "\r\n" + description.value;
+
+            //reference, the myData/ is the pathway in firebase and we set the name as input.value
+            const reference = ref(db, "myData/" + input.value);
+
+            //we set these values in the database
+            set(reference, {
+                //the first word(description, taskname etc) is what it is called (task:) the values are what they will be equal to
+                //first word can be anyhting you want, second word should be assigned
+                description: description.value,
+                taskName: input.value
+                
+
+            });
             //add the text node to the newly created element
             list.appendChild(li);
             // list.appendChild(de);
@@ -47,6 +72,7 @@ const firebaseConfig = {
             // de.appendChild(span);
 
 
+            
             
             
             
@@ -72,5 +98,13 @@ const firebaseConfig = {
         {
             //remove the target from the list
             e.target.parentElement.remove();
+            
+            
+            
         }
     }, false)
+
+    window.Login = function Login(){
+        console.log("clicked");
+        
+    }

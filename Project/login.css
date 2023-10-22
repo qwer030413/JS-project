@@ -1,0 +1,14 @@
+h1{
+    color : beige;
+    margin: 10px auto 10px;
+
+    
+}
+.login{
+    background-color: rgb(31, 115, 148);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 30px 180px;
+    margin: 100px auto 50px;
+    border-radius: 20px;
+}
