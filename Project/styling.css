@@ -180,5 +180,17 @@ ul li.checked::before{
 
 }
 
+#logout{
+    background: rgb(59, 155, 59);
+    border:none;
+    border-radius: 15px;
+    padding: 20px 50px;
+    cursor: pointer;
+
+
+}
+
+
+
 
 
