@@ -7,7 +7,6 @@
     margin: 100px auto 50px;
     border-radius: 20px;
     height: 40%;
-    
 }
 h1{
     color : beige;
@@ -42,15 +41,7 @@ input{
     border-radius: 10px;
 }
 
-#loginButton{
-    margin-top: 10px;
-    border : none;
-    background-color: goldenrod;
-    border-radius: 5px;
-    font-size: 25;
-    cursor:pointer;
 
-}
 #signUp{
     margin-top: 10px;
     border : none;
@@ -58,8 +49,6 @@ input{
     border-radius: 5px;
     font-size: 25;
     cursor:pointer;
-    width: 100%;
-
 }
 
 
