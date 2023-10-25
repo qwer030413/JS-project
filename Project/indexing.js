@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,14 +23,11 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
 
-
-
 // assign value of what we typed in into  input
 let input = document.getElementById("input");
 let description = document.getElementById("description");
 //asign the list to the list 
 let list = document.getElementById("list");
-
 
 // function runs when button clicked
 window.add = function add(){
@@ -85,23 +82,6 @@ if (el) {
     }, false)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //start of sign up/sign in/log out
 const lg = document.getElementById('logout');
 if(lg)
@@ -119,9 +99,6 @@ if(lg)
     });
 }
 
-
-
-
 //signup
 const su = document.getElementById('sp');
 if(su){
@@ -132,6 +109,9 @@ if(su){
         var username = document.getElementById('name').value;
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
+                sendEmailVerification(auth.currentUser)
+                .then(() => {
+                alert('Vertification email sent!');
                 // Signed up 
                 const user = userCredential.user;
                 set(ref(database, 'users/'+  user.uid),{
@@ -141,6 +121,9 @@ if(su){
                 })
                 alert('user Created!')
                 // ...
+
+                });;
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -150,8 +133,6 @@ if(su){
             });
     });
 }
-
-
 
 const lb = document.getElementById('loginButton');
 if(lb)
@@ -188,7 +169,6 @@ if(lb)
     });
 }
 
-
 const user = auth.currentUser;
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -206,8 +186,8 @@ onAuthStateChanged(auth, (user) => {
         // you have one. Use User.getToken() instead.
         const uid = user.uid;
     
-        document.getElementById("status").textContent = "Welcome " + email;
-        }
+        document.getElementById("status").textContent = "Welcome " + displayName;
+    }
     const uid = user.uid;
     // ...
   } else {
@@ -215,6 +195,4 @@ onAuthStateChanged(auth, (user) => {
     // User is signed out
     // ...
   }
-});
-
-    
+}); 
