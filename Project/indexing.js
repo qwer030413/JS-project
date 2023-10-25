@@ -196,3 +196,29 @@ onAuthStateChanged(auth, (user) => {
     // ...
   }
 }); 
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // if(auth.curretUser !== null){
+        //     document.getElementById("status").textContent = "Welcome ";
+
+        // }
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+
+      const uid = user.uid;
+
+      // ...
+    } else if(user == null) {
+        if(auth.curretUser == null){
+            document.getElementById("status").textContent = "Guest";
+        }   
+        
+
+      // User is signed out
+      // ...
+    }
+  });
+
+
+    
