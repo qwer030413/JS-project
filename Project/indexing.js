@@ -186,7 +186,7 @@ onAuthStateChanged(auth, (user) => {
         // you have one. Use User.getToken() instead.
         const uid = user.uid;
     
-        document.getElementById("status").textContent = "Welcome " + displayName;
+        document.getElementById("status").textContent = "Welcome " + email;
     }
     const uid = user.uid;
     // ...
