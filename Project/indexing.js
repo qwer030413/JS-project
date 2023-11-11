@@ -222,7 +222,6 @@ const button = document.getElementById("log");
         button.disabled = true;
         document.getElementById("status").textContent = "Welcome " + email;
     
-    // ...
   } else {
     document.getElementById("status").textContent = "Guest";
     button.disabled = false;
