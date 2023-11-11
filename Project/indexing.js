@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+import { getDatabase, set, ref, update, push } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,11 +17,14 @@ messagingSenderId: "720665752666",
 appId: "1:720665752666:web:84c6ee49bac7cade571463",
 measurementId: "G-PPWBZ8WQK7"
 };
-
+//TODO: finished storing data in fire base.
+//need to figure out how to read and iterate data and show it on list if logged in
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
+
+
 
 // assign value of what we typed in into  input
 let input = document.getElementById("input");
@@ -31,6 +34,7 @@ let list = document.getElementById("list");
 
 // function runs when button clicked
 window.add = function add(){
+
     if(input.value == '' || description.value =='')
     {
         alert("Nuh uh");
@@ -44,7 +48,30 @@ window.add = function add(){
         li.setAttribute('style', 'white-space: pre;');
         //assign the value of the input into the li value
         li.textContent = input.value + "\r\n" + description.value;
-
+        const todo = li.textContent;
+        //get user id and current user
+        onAuthStateChanged(auth, (user) => {
+            //if logged in
+            if (user) {
+                //get user id
+                const uid = user.uid;
+                //get a ref and set the folder locatioin
+                const postListRef = ref(database, 'users/' + uid + '/todo/');
+                //push the info to the folder
+                const newPostRef = push(postListRef);
+                //setting the newpost ref, which is postlistref being pushed
+                set(newPostRef, {
+                    todo 
+                });
+              
+              // ...
+            } else {
+              
+            }
+          });
+        
+            
+        
         
         //add the text node to the newly created element
         list.appendChild(li);
@@ -115,11 +142,14 @@ if(su){
                 // Signed up 
                 const user = userCredential.user;
                 set(ref(database, 'users/'+  user.uid),{
-                    displayName : username,
+                    profile : username,
                     password: password,
                     email: email
                 })
                 alert('user Created!')
+                console.log("signed up");
+            
+
                 // ...
 
                 });;
@@ -134,6 +164,7 @@ if(su){
     });
 }
 
+//sign in
 const lb = document.getElementById('loginButton');
 if(lb)
 {
@@ -156,6 +187,7 @@ if(lb)
     
     
                 alert('user signed in!')
+                console.log("signed in");
     
                 // ...
             })
@@ -169,14 +201,16 @@ if(lb)
     });
 }
 
-const user = auth.currentUser;
 onAuthStateChanged(auth, (user) => {
+const button = document.getElementById("log");
+
   if (user) {
+    
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
-    if (user !== null) {
+    
         // The user object has basic properties such as display name, email, etc.
-        const displayName = user.displayName;
+        const displayName = user.profile;
         const email = user.email;
         const photoURL = user.photoURL;
         const emailVerified = user.emailVerified;
@@ -185,40 +219,20 @@ onAuthStateChanged(auth, (user) => {
         // this value to authenticate with your backend server, if
         // you have one. Use User.getToken() instead.
         const uid = user.uid;
+        button.disabled = true;
+        document.getElementById("status").textContent = "Welcome " + email;
     
-        document.getElementById("status").textContent = "Welcome " + displayName;
-    }
-    const uid = user.uid;
     // ...
   } else {
     document.getElementById("status").textContent = "Guest";
+    button.disabled = false;
     // User is signed out
     // ...
   }
 }); 
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // if(auth.curretUser !== null){
-        //     document.getElementById("status").textContent = "Welcome ";
 
-        // }
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
 
-      const uid = user.uid;
-
-      // ...
-    } else if(user == null) {
-        if(auth.curretUser == null){
-            document.getElementById("status").textContent = "Guest";
-        }   
-        
-
-      // User is signed out
-      // ...
-    }
-  });
 
 
     
