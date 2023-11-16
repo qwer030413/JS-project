@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { getDatabase, set, ref, update, push } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+import { getDatabase, onValue,set, ref, update, push, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -19,6 +19,7 @@ measurementId: "G-PPWBZ8WQK7"
 };
 //TODO: finished storing data in fire base.
 //need to figure out how to read and iterate data and show it on list if logged in
+//idk what I did, good luck understanding what I did
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -55,10 +56,13 @@ window.add = function add(){
             if (user) {
                 //get user id
                 const uid = user.uid;
+                
                 //get a ref and set the folder locatioin
                 const postListRef = ref(database, 'users/' + uid + '/todo/');
+                
                 //push the info to the folder
                 const newPostRef = push(postListRef);
+                
                 //setting the newpost ref, which is postlistref being pushed
                 set(newPostRef, {
                     todo 
@@ -100,6 +104,19 @@ if (el) {
         //else if the click happened in span, delete the list
         else if(e.target.tagName === "SPAN")
         {
+            onAuthStateChanged(auth, (user) => {
+                //if logged in
+                if (user) {
+                    const uid = user.uid;
+                    remove(ref(database, 'users/' + uid + '/todo/' + e.target.parentElement.uid));
+
+
+                    e.target.parentElement.remove();
+
+
+                }
+            });
+                
             //remove the target from the list
             e.target.parentElement.remove();
             
@@ -214,11 +231,26 @@ const button = document.getElementById("log");
         const email = user.email;
         const photoURL = user.photoURL;
         const emailVerified = user.emailVerified;
+        const uid = user.uid;
+
+        let li = document.createElement("li");
+
+        // db.collection("cities").get().then(function(querySnapshot) {     
+            // querySnapshot.forEach(function(doc) {         
+            // console.log(doc.id, " => ", doc.data());     });
+        const updateList = ref(database, 'users/' + uid + '/todo/')
+                onValue(updateList, (snapshot) => {
+                    const data = snapshot.val();
+                    li.textContent = data.textContent;
+                    list.appendChild(li);
+                    let span = document.createElement("span");
+                    li.appendChild(span);
+
+                })
     
         // The user's ID, unique to the Firebase project. Do NOT use
         // this value to authenticate with your backend server, if
         // you have one. Use User.getToken() instead.
-        const uid = user.uid;
         button.disabled = true;
         document.getElementById("status").textContent = "Welcome " + email;
     
