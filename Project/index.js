@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { getDatabase, onValue,set, ref, update, push, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+import { getDatabase , onValue,set, ref, update, push, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-
+// import {getFirestore, collection} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,6 +24,8 @@ measurementId: "G-PPWBZ8WQK7"
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
+// const fs = getFirestore();
+// const colRef = collection(fs, 'test');
 
 
 
@@ -32,7 +34,9 @@ let input = document.getElementById("input");
 let description = document.getElementById("description");
 //asign the list to the list 
 let list = document.getElementById("list");
-
+window.meow = function meow(){
+    console.log("meow");
+}
 // function runs when button clicked
 window.add = function add(){
 
@@ -91,6 +95,10 @@ window.add = function add(){
     input.value = "";
     description.value ="";
 }
+
+let adding = document.getElementById("add");
+adding.addEventListener("click", meow);
+
 const el = document.getElementById('list');
 if (el) {
     list.addEventListener("click", function(e)
