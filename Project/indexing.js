@@ -34,9 +34,7 @@ let input = document.getElementById("input");
 let description = document.getElementById("description");
 //asign the list to the list 
 let list = document.getElementById("list");
-window.meow = function meow(){
-    console.log("meow");
-}
+
 // function runs when button clicked
 window.add = function add(){
 
@@ -96,8 +94,7 @@ window.add = function add(){
     description.value ="";
 }
 
-let adding = document.getElementById("add");
-adding.addEventListener("click", meow);
+
 
 const el = document.getElementById('list');
 if (el) {
