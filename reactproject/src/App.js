@@ -4,6 +4,8 @@ import pln from './Images/planner.png'
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import { getDatabase, onValue,set, ref, update, push, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { useState } from 'react'
+import React, { Component } from 'react';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,62 +30,23 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
 
-
-
-// assign value of what we typed in into  input
-let input = document.getElementById("input");
+export default function App() {
+  
+  // assign value of what we typed in into  input
+const [input, add] = useState('');
+// let input = document.getElementById("input");
 let description = document.getElementById("description");
 //asign the list to the list 
 let list = document.getElementById("list");
-function App() {
-  return (
-    <div 
-    style={{
-      backgroundColor: 'darkslategrey'
-     
-      }} 
-      >
-    <div className="login">
-        <button  id = "log" onClick = "window.location.href = 'Project/login.html';">Login</button>
-        <button id = "logout">Log out</button>
-        <h1 id = "status">Guest</h1>
-    </div>
-    <div className="container">
-        <h1 style={{textAlign: 'center'}}>Planner              <img src={pln} width="100" height="90"/></h1>
-        <div className="row">
 
-            <input type="text" id = "input" placeholder="Task name"/>
-            
-        </div>
-        <div className="descrip">
-            <textarea id="description" cols="40" rows="8" placeholder="Description"></textarea>
-            <button id = "add" onClick={add()}>Add Task</button>
-        </div>
-
-        <ul id ="list">
-            
-        </ul>
-        
-    </div>
-    <div id = "form"> </div>
-
-    <div id = "loginpage"></div>
-
-    
-    
-    
-
-
-</div>
-  );
-}
-window.add = function add(){
-
-  if(input.value == '' || description.value =='')
-  {
-      alert("Nuh uh");
-  }
-  else{
+const adding = event => {
+   add(event.target.value)
+  
+    if(input.value == "" || description.value =="")
+    {
+        alert("Nuh uh");
+    }
+    else{
       //create new element for list
       let li = document.createElement("li");
       
@@ -129,187 +92,58 @@ window.add = function add(){
       span.textContent = "\u00d7";
       li.appendChild(span);
       // de.appendChild(span);
+      //clear the text input after it is entered
+      input.value = "";
+      description.value ="";
   }
-  //clear the text input after it is entered
-  input.value = "";
-  description.value ="";
-}
-const el = document.getElementById('list');
-if (el) {
-  list.addEventListener("click", function(e)
-  {
-      //if the click happened in the list, cross out the text
-      if(e.target.tagName === "LI")
-      {
-          //use e.target to target the list and toggle the checked in css code
-          e.target.classList.toggle("checked");
-      }
-      //else if the click happened in span, delete the list
-      else if(e.target.tagName === "SPAN")
-      {
-          onAuthStateChanged(auth, (user) => {
-              //if logged in
-              if (user) {
-                  const uid = user.uid;
-                  remove(ref(database, 'users/' + uid + '/todo/' + e.target.parentElement.uid));
 
 
-                  e.target.parentElement.remove();
+  
+  
 
-
-              }
-          });
-              
-          //remove the target from the list
-          e.target.parentElement.remove();
-          
-          
-          
-      }
-  }, false)
 }
 
-//start of sign up/sign in/log out
-const lg = document.getElementById('logout');
-if(lg)
-{
-  lg.addEventListener('click', (e) =>{
-      signOut(auth).then(() => {
-          alert("user logged out");
-          // Sign-out successful.
-        }).catch((error) => {
-          // An error happened.
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert(errorMessage);
-        })
-  });
+
+  return (
+    <div 
+    style={{
+      backgroundColor: 'darkslategrey'
+     
+      }} 
+      >
+    <div className="login">
+        <button  id = "log" onClick = "window.location.href = 'Project/login.html';">Login</button>
+        <button id = "logout">Log out</button>
+        <h1 id = "status">Guest</h1>
+    </div>
+    <div className="container">
+        <h1 style={{textAlign: 'center'}}>Planner              <img src={pln} width="100" height="90"/></h1>
+        <div className="row">
+
+          <input value = "" type="text"  id = "input" placeholder="Task name" />
+            
+        </div>
+        <div className="descrip">
+            <textarea id="description" cols="40" rows="8" placeholder="Description"></textarea>
+            <button id = "add" onChange={adding()}>Add Task</button>
+        </div>
+
+        <ul id ="list">
+            
+        </ul>
+        
+    </div>
+    <div id = "form"> </div>
+
+    <div id = "loginpage"></div>
+
+    
+    
+    
+
+
+</div>
+  );
 }
 
-//signup
-const su = document.getElementById('sp');
-if(su){
-  su.addEventListener('click',(e) => {
 
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
-      var username = document.getElementById('name').value;
-      createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-              sendEmailVerification(auth.currentUser)
-              .then(() => {
-              alert('Vertification email sent!');
-              // Signed up 
-              const user = userCredential.user;
-              set(ref(database, 'users/'+  user.uid),{
-                  profile : username,
-                  password: password,
-                  email: email
-              })
-              alert('user Created!')
-              console.log("signed up");
-          
-
-              // ...
-
-              });;
-              
-          })
-          .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert(errorMessage);
-              // ..
-          });
-  });
-}
-
-//sign in
-const lb = document.getElementById('loginButton');
-if(lb)
-{
-  lb.addEventListener('click', (e) => {
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
-      signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-              // Signed in 
-              const user = userCredential.user;
-              const date = new Date();
-              update(ref(database, 'users/' + user.uid), {
-                  last_login: date
-  
-  
-              })
-              
-              
-              
-  
-  
-              alert('user signed in!')
-              console.log("signed in");
-  
-              // ...
-          })
-          .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert(errorMessage);
-  
-          });
-  
-  });
-}
-
-onAuthStateChanged(auth, (user) => {
-const button = document.getElementById("log");
-
-if (user) {
-  
-  // User is signed in, see docs for a list of available properties
-  // https://firebase.google.com/docs/reference/js/auth.user
-  
-      // The user object has basic properties such as display name, email, etc.
-      const displayName = user.profile;
-      const email = user.email;
-      const photoURL = user.photoURL;
-      const emailVerified = user.emailVerified;
-      const uid = user.uid;
-
-      let li = document.createElement("li");
-
-      // db.collection("cities").get().then(function(querySnapshot) {     
-          // querySnapshot.forEach(function(doc) {         
-          // console.log(doc.id, " => ", doc.data());     });
-      const updateList = ref(database, 'users/' + uid + '/todo/')
-              onValue(updateList, (snapshot) => {
-                  const data = snapshot.val();
-                  li.textContent = data.textContent;
-                  list.appendChild(li);
-                  let span = document.createElement("span");
-                  li.appendChild(span);
-
-              })
-  
-      // The user's ID, unique to the Firebase project. Do NOT use
-      // this value to authenticate with your backend server, if
-      // you have one. Use User.getToken() instead.
-      button.disabled = true;
-      document.getElementById("status").textContent = "Welcome " + email;
-  
-} else {
-  document.getElementById("status").textContent = "Guest";
-  button.disabled = false;
-  // User is signed out
-  // ...
-}
-}); 
-
-
-
-
-
-  
-
-
-export default App;
