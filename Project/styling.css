@@ -6,17 +6,19 @@ h1{
 }
 
 .container{
-    background-color: rgb(31, 115, 148);
+    background-color: rgb(24, 25, 27);
     width: 100%;
     max-width: 500px;
     padding: 30px 30px 180px;
     margin: 100px auto 50px;
     border-radius: 20px;
+    
+    
 }
 
 
 .button{
-    background-color: black;
+    background-color: rgb(170, 206, 12);
     position:absolute;
     padding: 20px 30px 20px;
     margin: 30px auto 50px;
@@ -28,7 +30,7 @@ h1{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: antiquewhite;
+    background-color: rgb(215, 218, 250);
     /* make thing round */
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
@@ -42,7 +44,7 @@ h1{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: antiquewhite;
+    background-color: rgb(215, 218, 250);
     /* make thing round */
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -74,7 +76,7 @@ input{
     font-size: 15px;
 }
 #add{
-    background: rgb(59, 155, 59);
+    background: rgb(170, 206, 12);
     color: white;
     outline: none;
     border:none;
@@ -96,7 +98,7 @@ ul li{
     font-size: 17px;
     padding: 15px 8px 15px 30px;
     user-select: none;
-    background-color: antiquewhite;
+    background-color: rgb(215, 218, 250);
     margin-top: 10px;
     border-radius: 50px;
     /* changing the font */
@@ -154,6 +156,7 @@ ul li.checked::before{
     left: -50px;
 }
 .login{
+    
     position: relative;
     line-height: 100px;
     text-align: center;
@@ -164,7 +167,7 @@ ul li.checked::before{
 }
 #log{
     position: relative;
-    background: rgb(59, 155, 59);
+    background: rgb(170, 206, 12);
     border:none;
     /* padding: first value is height and second value is width */
     padding: 20px 50px;
@@ -182,7 +185,7 @@ ul li.checked::before{
 }
 
 #logout{
-    background: rgb(59, 155, 59);
+    background: rgb(170, 206, 12);
     border:none;
     border-radius: 15px;
     padding: 20px 50px;
