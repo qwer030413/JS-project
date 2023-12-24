@@ -94,9 +94,10 @@ if (el) {
                 
                 // console.log(e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1));
                 const colref = doc(fs, 'users', curuser);
-                let data = e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1).replace(/(\r\n|\n|\r)/gm,"");
+                let rawdata = e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1);
+                let data = e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1).replace(/(\r\n|\n|\r)/gm," ");
                 data = data.trim();
-                console.log(data);
+                console.log(rawdata);
                 await updateDoc(colref, {
                     list: arrayRemove(data)
                 });
@@ -245,7 +246,7 @@ const button = document.getElementById("log");
             let li = document.createElement("li");
             let span = document.createElement("span");
             li.setAttribute('style', 'white-space: pre;');
-            li.textContent = todolist[key];
+            li.textContent = todolist[key].substring(0,todolist[key].indexOf(' ')) + "\r\n" + todolist[key].substring(todolist[key].indexOf(' ') + 1,todolist[key].length);
             list.appendChild(li);
             span.textContent = "\u00d7";
             
@@ -290,7 +291,8 @@ window.add = async function add(){
         
         if(curuser != null)
         {   
-            liststore = li.textContent.replace(/(\r\n|\n|\r)/gm,"");
+            liststore = li.textContent.replace(/(\r\n|\n|\r)/gm," ");
+            // liststore = li.textContent;
             
             const listref = doc(fs,"users",curuser);
             await updateDoc(listref, {
