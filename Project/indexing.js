@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import { getDatabase , onValue,set, ref, update, push, remove } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-import {getFirestore, collection, getDocs, addDoc, setDoc, doc, getDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import {getFirestore, collection, getDocs, deleteDoc, addDoc, setDoc, doc, getDoc, query, arrayUnion,arrayRemove, updateDoc,where, } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,12 +35,12 @@ let input = document.getElementById("input");
 let description = document.getElementById("description");
 //asign the list to the list 
 let list = document.getElementById("list");
-let liststore = []
+// let liststore = []
+var liststore;
 
 //fetching data
-// const colRef = doc(fs, 'test', 'jVRZTEjKvTexdEmBXXxI');
 
-// getDocs(colRef)
+// getDoc(c)
 //     .then((snapshot) => {
 //         let books = []
 //         snapshot.docs.forEach((doc) => {
@@ -62,42 +62,52 @@ let liststore = []
     
 // })
 // function runs when button clicked
+// const userref = collection(fs, 'users');
+// const colRef = collection(userref, '9KymWdGBHUYf7EEKOv8mrWVQXzF3', 'list');
+// const q = query(userref, where("list", "array-contains", "asd asd"));
 
+// const querysnapshot = await getDocs(q);
+// querysnapshot.forEach((doc) => {
+//     console.log(doc.id(), " => ", doc.data())
+// })
 
 
 
 const el = document.getElementById('list');
 if (el) {
-    list.addEventListener("click", function(e)
+    list.addEventListener("click", async function(e)
     {
         //if the click happened in the list, cross out the text
         if(e.target.tagName === "LI")
         {
             //use e.target to target the list and toggle the checked in css code
             e.target.classList.toggle("checked");
+            console.log(e.target.textContent);
         }
         //else if the click happened in span, delete the list
         else if(e.target.tagName === "SPAN")
         {
-            onAuthStateChanged(auth, (user) => {
-                //if logged in
-                if (user) {
-                    const uid = user.uid;
-                    remove(ref(database, 'users/' + uid + '/todo/' + e.target.parentElement.uid));
-
-
-                    e.target.parentElement.remove();
-
-
-                }
-            });
+            
+            
+            if(curuser != null)
+            {
                 
+                // console.log(e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1));
+                const colref = doc(fs, 'users', curuser);
+                let data = e.target.parentElement.innerText.substring(0 , e.target.parentElement.innerText.length - 1).replace(/(\r\n|\n|\r)/gm,"");
+                data = data.trim();
+                console.log(data);
+                await updateDoc(colref, {
+                    list: arrayRemove(data)
+                });
+            }
             //remove the target from the list
             e.target.parentElement.remove();
             
             
             
         }
+        
     }, false)
 }
 
@@ -108,13 +118,17 @@ if(lg)
     logout.addEventListener('click', (e) =>{
         signOut(auth).then(() => {
             alert("user logged out");
+            input.value = "";
+            description.value ="";
+            
             // Sign-out successful.
-          }).catch((error) => {
+        }).catch((error) => {
             // An error happened.
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 alert(errorMessage);
-          })
+        })
+        
     });
 }
 
@@ -130,7 +144,7 @@ if(su){
             .then(async (userCredential) => {
                 const user = userCredential.user;
                 await setDoc(doc(fs, "users",  user.uid), {
-                    list: liststore
+                    list: []
                 });
                 
                 sendEmailVerification(auth.currentUser)
@@ -154,25 +168,7 @@ if(su){
                 })
                 
                 
-            .then(() => {
-                sendEmailVerification(auth.currentUser)
-                .then(() => {
-                alert('Vertification email sent!');
-                // Signed up 
-                const user = userCredential.user;
-                set(ref(database, 'users/'+  user.uid),{
-                    profile : username,
-                    password: password,
-                    email: email
-                })
-                alert('user Created!')
-                console.log("signed up");
             
-
-                // ...
-
-                });
-            })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -235,21 +231,31 @@ const button = document.getElementById("log");
         const uid = user.uid;
         curuser = uid;
 
-        let li = document.createElement("li");
-        const iterator = liststore.keys();
-        //not working
-        const snapshot = await getDocs(doc(fs, 'users', '9KymWdGBHUYf7EEKOv8mrWVQXzF3'))
-            // const colRef = doc(fs, 'users/9KymWdGBHUYf7EEKOv8mrWVQXzF3');
-            // getDocs(colRef)
-            // .then((snapshot) => {
-            //             let elems = []
-            //             snapshot.docs.forEach((doc) => {
-            //                 elems.push({...doc.data(), id: doc.id})
-            //             })
-            //             console.log(elems)
-            //         })
         
-        console.log(liststore);
+        
+        //not working
+        // const col = collection(fs, 'users');
+        const docref = doc(fs, 'users', user.uid);
+        const docsnap = await getDoc(docref);
+        const todolist = docsnap.data().list;
+        
+        for(var key in todolist)
+        {
+            // console.log(todolist[key]);
+            let li = document.createElement("li");
+            let span = document.createElement("span");
+            li.setAttribute('style', 'white-space: pre;');
+            li.textContent = todolist[key];
+            list.appendChild(li);
+            span.textContent = "\u00d7";
+            
+            li.appendChild(span);
+            
+            
+            
+        }
+        // console.log(docsnap.data()[0]);
+        
         // The user's ID, unique to the Firebase project. Do NOT use
         // this value to authenticate with your backend server, if
         // you have one. Use User.getToken() instead.
@@ -281,16 +287,20 @@ window.add = async function add(){
         li.setAttribute('style', 'white-space: pre;');
         //assign the value of the input into the li value
         li.textContent = input.value + "\r\n" + description.value;
-        liststore.push(li.textContent);
-        if(curuser != null)
-        {
-            await setDoc(doc(fs, "users",  curuser), {
-                list: liststore
-            });
-        }
-        console.log(liststore)
-        // const todo = li.textContent;
         
+        if(curuser != null)
+        {   
+            liststore = li.textContent.replace(/(\r\n|\n|\r)/gm,"");
+            
+            const listref = doc(fs,"users",curuser);
+            await updateDoc(listref, {
+                list: arrayUnion(liststore)
+            });
+           
+            
+        }
+        // const todo = li.textContent;
+       
         
             
         
@@ -302,6 +312,7 @@ window.add = async function add(){
         let span = document.createElement("span");
         //also a given thing, set span as x icon(the weird code is for the x icon, it is built in)
         span.textContent = "\u00d7";
+        
         li.appendChild(span);
         // de.appendChild(span);
     }

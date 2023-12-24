@@ -9,6 +9,7 @@
     height: 40%;
     
 }
+
 h1{
     color : beige;
     margin: 10px auto 10px;
@@ -61,5 +62,15 @@ input{
     width: 100%;
 
 }
+#goBack{
+    position: relative;
+    background-color:  green;
+    border-radius: 5px;
+    border: none;
+    align-self: center;
+    width: 20%;
+    padding:30px
+}
+
 
 

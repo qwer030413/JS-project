@@ -50,5 +50,13 @@ input{
     font-size: 25;
     cursor:pointer;
 }
-
+#goBack{
+    position: relative;
+    background-color:  green;
+    border-radius: 5px;
+    border: none;
+    align-self: center;
+    width: 20%;
+    padding:30px
+}
 

@@ -16,11 +16,12 @@ h1{
 
 
 .button{
-    background-color: beige;
+    background-color: black;
     position:absolute;
     padding: 20px 30px 20px;
     margin: 30px auto 50px;
     border-radius: 20px;
+    
 
 }
 .row{
@@ -189,6 +190,13 @@ ul li.checked::before{
 
 
 }
+/* body{
+    
+    background-image: url('todoimage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+} */
 
 
 
